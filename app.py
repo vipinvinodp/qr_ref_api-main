@@ -23,9 +23,9 @@ qr_data = {
     },
     "AV3": {
         "title": "AV3",
-        "location": "Please place in AV25 box in the kitchen",
+        "location": "Love Please place in AV25 box in the kitchen",
         "use": "This item is used for cooking vegetables",
-        "category": "Tool used by Mumma"
+        "category": "Tool used by Mumma and Dada"
     }
     # Add up to AV50 as needed
 }
