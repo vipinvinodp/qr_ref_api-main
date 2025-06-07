@@ -67,3 +67,49 @@ def generate_sheet():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+from flask import Flask, request, jsonify, render_template_string
+
+app = Flask(__name__)
+
+# Mapping dictionary
+qr_lookup = {
+    "AV1": {
+        "title": "AV1",
+        "location": "Please place in AV70, AV57 box in the master room",
+        "use": "This item is used for creating mathematical objects",
+        "category": "Category is tool used by whole family"
+    },
+    "AV2": {
+        "title": "AV2",
+        "location": "Please place in AV17, AV23 box in the bedroom",
+        "use": "This item is used for repairing pipe",
+        "category": "Category is tool used by Dada"
+    },
+    "AV3": {
+        "title": "AV3",
+        "location": "Please place in AV25 box in the kitchen",
+        "use": "This item is used for cooking vegetables",
+        "category": "Category is tool used by Mumma"
+    }
+    # Add up to AV50...
+}
+
+# View endpoint
+@app.route("/view/<code>", methods=["GET"])
+def view_code(code):
+    entry = qr_lookup.get(code.upper())
+    if not entry:
+        return f"<h3>No entry found for {code}</h3>", 404
+
+    html_template = """
+    <html>
+    <head><title>{{ title }}</title></head>
+    <body style="font-family:sans-serif;">
+        <h2>{{ title }}</h2>
+        <p><strong>Where to Keep:</strong> {{ location }}</p>
+        <p><strong>Item Use:</strong> {{ use }}</p>
+        <p><strong>Category:</strong> {{ category }}</p>
+    </body>
+    </html>
+    """
+    return render_template_string(html_template, **entry)
